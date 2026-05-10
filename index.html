@@ -56,15 +56,15 @@
       z-index: 1;
     }
 
-    /* Decorative corner florals */
+    /* Decorative corner florals — inline SVG, no external images */
     .corner {
       position: fixed;
       width: 220px;
-      opacity: 0.55;
+      opacity: 0.45;
       z-index: 0;
       pointer-events: none;
     }
-    .corner-tl { top: 0; left: 0; transform: none; }
+    .corner-tl { top: 0; left: 0; }
     .corner-tr { top: 0; right: 0; transform: scaleX(-1); }
     .corner-bl { bottom: 0; left: 0; transform: scaleY(-1); }
     .corner-br { bottom: 0; right: 0; transform: scale(-1); }
@@ -231,6 +231,51 @@
       border: 0;
     }
 
+    /* ── Fake thumbnail overlay ──────────────────────────── */
+    .video-cover {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #c5ceac 0%, #9CA479 50%, #7a8360 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 2;
+      transition: opacity 0.3s;
+    }
+    .video-cover:hover .play-circle { transform: scale(1.1); }
+    .play-circle {
+      width: 64px;
+      height: 64px;
+      background: rgba(255,255,255,0.92);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+      margin-bottom: 12px;
+    }
+    .play-circle svg {
+      width: 26px;
+      height: 26px;
+      fill: var(--sage-dark);
+      margin-left: 4px; /* optical centre for triangle */
+    }
+    .cover-label {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--warm-white);
+      letter-spacing: 0.1em;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+    }
+    .video-cover.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
     .lol-text {
       margin-top: 18px;
       font-style: italic;
@@ -238,25 +283,121 @@
       color: var(--sage-dark);
       letter-spacing: 0.05em;
     }
+    .lol-text a { color: var(--sage-dark); }
 
     /* ── Animations ──────────────────────────────────────── */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(22px); }
       to   { opacity: 1; transform: translateY(0); }
     }
-
-    /* ── Floral SVG (inline corner decoration) ───────────── */
   </style>
 </head>
 <body>
 
-  <!-- Falling petals (JS-generated) -->
-
-  <!-- Corner floral decorations -->
-  <img class="corner corner-tl" src="https://www.transparentpng.com/thumb/flowers/GxUaVD-floral-flowers-png-clipart.png" alt="" />
-  <img class="corner corner-tr" src="https://www.transparentpng.com/thumb/flowers/GxUaVD-floral-flowers-png-clipart.png" alt="" />
-  <img class="corner corner-bl" src="https://www.transparentpng.com/thumb/flowers/GxUaVD-floral-flowers-png-clipart.png" alt="" />
-  <img class="corner corner-br" src="https://www.transparentpng.com/thumb/flowers/GxUaVD-floral-flowers-png-clipart.png" alt="" />
+  <!--
+    Corner floral decorations — pure inline SVG.
+    No external <img> tags here, so no broken-image placeholders on mobile.
+  -->
+  <svg class="corner corner-tl" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <g fill="none" stroke="#9CA479" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M10,210 Q40,160 80,120 Q120,80 160,40" stroke-width="1.5"/>
+      <path d="M40,170 Q55,145 75,135" stroke-width="1"/>
+      <path d="M70,130 Q90,108 110,100" stroke-width="1"/>
+      <path d="M105,95 Q128,75 148,65" stroke-width="1"/>
+      <ellipse cx="78" cy="132" rx="10" ry="5" fill="#9CA479" opacity="0.6" transform="rotate(-35 78 132)"/>
+      <ellipse cx="68" cy="126" rx="8" ry="4" fill="#c5ceac" opacity="0.5" transform="rotate(-55 68 126)"/>
+      <ellipse cx="113" cy="97" rx="11" ry="5" fill="#9CA479" opacity="0.55" transform="rotate(-50 113 97)"/>
+      <ellipse cx="102" cy="93" rx="8" ry="4" fill="#c5ceac" opacity="0.45" transform="rotate(-30 102 93)"/>
+      <ellipse cx="151" cy="62" rx="10" ry="4.5" fill="#9CA479" opacity="0.6" transform="rotate(-55 151 62)"/>
+      <ellipse cx="140" cy="58" rx="8" ry="4" fill="#c5ceac" opacity="0.5" transform="rotate(-35 140 58)"/>
+      <circle cx="82" cy="118" r="3" fill="#d4b896" opacity="0.7"/>
+      <circle cx="88" cy="114" r="2" fill="#e8d5c4" opacity="0.6"/>
+      <circle cx="78" cy="112" r="2.5" fill="#d4b896" opacity="0.65"/>
+      <circle cx="118" cy="85" r="3" fill="#d4b896" opacity="0.7"/>
+      <circle cx="125" cy="80" r="2" fill="#e8d5c4" opacity="0.6"/>
+      <circle cx="155" cy="48" r="3" fill="#d4b896" opacity="0.7"/>
+      <circle cx="162" cy="43" r="2" fill="#e8d5c4" opacity="0.6"/>
+      <circle cx="55" cy="152" r="2.5" fill="#9CA479" opacity="0.55"/>
+      <circle cx="60" cy="146" r="2" fill="#7a8360" opacity="0.5"/>
+      <circle cx="95" cy="110" r="2.5" fill="#9CA479" opacity="0.55"/>
+      <circle cx="135" cy="72" r="2.5" fill="#9CA479" opacity="0.55"/>
+    </g>
+  </svg>
+  <svg class="corner corner-tr" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <g fill="none" stroke="#9CA479" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M10,210 Q40,160 80,120 Q120,80 160,40" stroke-width="1.5"/>
+      <path d="M40,170 Q55,145 75,135" stroke-width="1"/>
+      <path d="M70,130 Q90,108 110,100" stroke-width="1"/>
+      <path d="M105,95 Q128,75 148,65" stroke-width="1"/>
+      <ellipse cx="78" cy="132" rx="10" ry="5" fill="#9CA479" opacity="0.6" transform="rotate(-35 78 132)"/>
+      <ellipse cx="68" cy="126" rx="8" ry="4" fill="#c5ceac" opacity="0.5" transform="rotate(-55 68 126)"/>
+      <ellipse cx="113" cy="97" rx="11" ry="5" fill="#9CA479" opacity="0.55" transform="rotate(-50 113 97)"/>
+      <ellipse cx="102" cy="93" rx="8" ry="4" fill="#c5ceac" opacity="0.45" transform="rotate(-30 102 93)"/>
+      <ellipse cx="151" cy="62" rx="10" ry="4.5" fill="#9CA479" opacity="0.6" transform="rotate(-55 151 62)"/>
+      <ellipse cx="140" cy="58" rx="8" ry="4" fill="#c5ceac" opacity="0.5" transform="rotate(-35 140 58)"/>
+      <circle cx="82" cy="118" r="3" fill="#d4b896" opacity="0.7"/>
+      <circle cx="88" cy="114" r="2" fill="#e8d5c4" opacity="0.6"/>
+      <circle cx="78" cy="112" r="2.5" fill="#d4b896" opacity="0.65"/>
+      <circle cx="118" cy="85" r="3" fill="#d4b896" opacity="0.7"/>
+      <circle cx="125" cy="80" r="2" fill="#e8d5c4" opacity="0.6"/>
+      <circle cx="155" cy="48" r="3" fill="#d4b896" opacity="0.7"/>
+      <circle cx="162" cy="43" r="2" fill="#e8d5c4" opacity="0.6"/>
+      <circle cx="55" cy="152" r="2.5" fill="#9CA479" opacity="0.55"/>
+      <circle cx="60" cy="146" r="2" fill="#7a8360" opacity="0.5"/>
+      <circle cx="95" cy="110" r="2.5" fill="#9CA479" opacity="0.55"/>
+      <circle cx="135" cy="72" r="2.5" fill="#9CA479" opacity="0.55"/>
+    </g>
+  </svg>
+  <svg class="corner corner-bl" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <g fill="none" stroke="#9CA479" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M10,210 Q40,160 80,120 Q120,80 160,40" stroke-width="1.5"/>
+      <path d="M40,170 Q55,145 75,135" stroke-width="1"/>
+      <path d="M70,130 Q90,108 110,100" stroke-width="1"/>
+      <path d="M105,95 Q128,75 148,65" stroke-width="1"/>
+      <ellipse cx="78" cy="132" rx="10" ry="5" fill="#9CA479" opacity="0.6" transform="rotate(-35 78 132)"/>
+      <ellipse cx="68" cy="126" rx="8" ry="4" fill="#c5ceac" opacity="0.5" transform="rotate(-55 68 126)"/>
+      <ellipse cx="113" cy="97" rx="11" ry="5" fill="#9CA479" opacity="0.55" transform="rotate(-50 113 97)"/>
+      <ellipse cx="102" cy="93" rx="8" ry="4" fill="#c5ceac" opacity="0.45" transform="rotate(-30 102 93)"/>
+      <ellipse cx="151" cy="62" rx="10" ry="4.5" fill="#9CA479" opacity="0.6" transform="rotate(-55 151 62)"/>
+      <ellipse cx="140" cy="58" rx="8" ry="4" fill="#c5ceac" opacity="0.5" transform="rotate(-35 140 58)"/>
+      <circle cx="82" cy="118" r="3" fill="#d4b896" opacity="0.7"/>
+      <circle cx="88" cy="114" r="2" fill="#e8d5c4" opacity="0.6"/>
+      <circle cx="78" cy="112" r="2.5" fill="#d4b896" opacity="0.65"/>
+      <circle cx="118" cy="85" r="3" fill="#d4b896" opacity="0.7"/>
+      <circle cx="125" cy="80" r="2" fill="#e8d5c4" opacity="0.6"/>
+      <circle cx="155" cy="48" r="3" fill="#d4b896" opacity="0.7"/>
+      <circle cx="162" cy="43" r="2" fill="#e8d5c4" opacity="0.6"/>
+      <circle cx="55" cy="152" r="2.5" fill="#9CA479" opacity="0.55"/>
+      <circle cx="60" cy="146" r="2" fill="#7a8360" opacity="0.5"/>
+      <circle cx="95" cy="110" r="2.5" fill="#9CA479" opacity="0.55"/>
+      <circle cx="135" cy="72" r="2.5" fill="#9CA479" opacity="0.55"/>
+    </g>
+  </svg>
+  <svg class="corner corner-br" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <g fill="none" stroke="#9CA479" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M10,210 Q40,160 80,120 Q120,80 160,40" stroke-width="1.5"/>
+      <path d="M40,170 Q55,145 75,135" stroke-width="1"/>
+      <path d="M70,130 Q90,108 110,100" stroke-width="1"/>
+      <path d="M105,95 Q128,75 148,65" stroke-width="1"/>
+      <ellipse cx="78" cy="132" rx="10" ry="5" fill="#9CA479" opacity="0.6" transform="rotate(-35 78 132)"/>
+      <ellipse cx="68" cy="126" rx="8" ry="4" fill="#c5ceac" opacity="0.5" transform="rotate(-55 68 126)"/>
+      <ellipse cx="113" cy="97" rx="11" ry="5" fill="#9CA479" opacity="0.55" transform="rotate(-50 113 97)"/>
+      <ellipse cx="102" cy="93" rx="8" ry="4" fill="#c5ceac" opacity="0.45" transform="rotate(-30 102 93)"/>
+      <ellipse cx="151" cy="62" rx="10" ry="4.5" fill="#9CA479" opacity="0.6" transform="rotate(-55 151 62)"/>
+      <ellipse cx="140" cy="58" rx="8" ry="4" fill="#c5ceac" opacity="0.5" transform="rotate(-35 140 58)"/>
+      <circle cx="82" cy="118" r="3" fill="#d4b896" opacity="0.7"/>
+      <circle cx="88" cy="114" r="2" fill="#e8d5c4" opacity="0.6"/>
+      <circle cx="78" cy="112" r="2.5" fill="#d4b896" opacity="0.65"/>
+      <circle cx="118" cy="85" r="3" fill="#d4b896" opacity="0.7"/>
+      <circle cx="125" cy="80" r="2" fill="#e8d5c4" opacity="0.6"/>
+      <circle cx="155" cy="48" r="3" fill="#d4b896" opacity="0.7"/>
+      <circle cx="162" cy="43" r="2" fill="#e8d5c4" opacity="0.6"/>
+      <circle cx="55" cy="152" r="2.5" fill="#9CA479" opacity="0.55"/>
+      <circle cx="60" cy="146" r="2" fill="#7a8360" opacity="0.5"/>
+      <circle cx="95" cy="110" r="2.5" fill="#9CA479" opacity="0.55"/>
+      <circle cx="135" cy="72" r="2.5" fill="#9CA479" opacity="0.55"/>
+    </g>
+  </svg>
 
   <!-- Landing content -->
   <main class="landing">
@@ -272,7 +413,7 @@
       <span class="divider-line"></span>
     </div>
 
-    <p class="date-text">"Two souls, one heart — and one very suspicious wedding website."</p>
+    <p class="date-text">Two souls, one heart - and one very suspicious looking wedding website</p>
 
     <img
       class="venue-photo"
@@ -287,38 +428,93 @@
   <div class="modal-overlay" id="modal">
     <div class="modal-box">
       <button class="modal-close" onclick="closeModal()" aria-label="Close">✕</button>
-      <p class="modal-label">Surprise! 🎉</p>
-      <div class="video-wrap" id="videoWrap"></div>
-      <p class="lol-text">
-    fool me twice! ok, for reals here's the link: 
-    <a href="https://withjoy.com/anja-and-alex-wedding">https://withjoy.com/anja-and-alex-wedding</a>
-</p>
+      <p class="modal-label" id="modalLabel" style="visibility:hidden;">Surprise! 🎉</p>
+      <div class="video-wrap" id="videoWrap">
+        <!-- Fake thumbnail — hides the real YouTube preview until clicked -->
+        <div class="video-cover" id="videoCover" onclick="revealVideo()">
+          <div class="play-circle">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+          </div>
+          <span class="cover-label">Play our special message ♥</span>
+        </div>
+      </div>
+
+      <p class="lol-text" id="lolText" style="visibility:hidden;">
+        fool me twice! ok for reals this is the proper link:
+        <a href="https://withjoy.com/anja-and-alex-wedding">https://withjoy.com/anja-and-alex-wedding</a>
+      </p>
     </div>
   </div>
 
   <script>
+    /* ── YouTube IFrame Player API ───────────────────────── */
+    var ytPlayer = null;
+    var ytReady  = false;
+
+    // Load the API script once
+    var tag = document.createElement('script');
+    tag.src = 'https://www.youtube.com/iframe_api';
+    document.head.appendChild(tag);
+
+    // Called automatically by the API when it's ready
+    function onYouTubeIframeAPIReady() {
+      ytReady = true;
+    }
+
+    function createPlayer() {
+      // Create a plain div for the API to replace
+      var div = document.createElement('div');
+      div.id = 'ytPlayerEl';
+      var wrap = document.getElementById('videoWrap');
+      wrap.insertBefore(div, document.getElementById('videoCover'));
+
+      ytPlayer = new YT.Player('ytPlayerEl', {
+        videoId: 'xvFZjo5PgG0',
+        playerVars: {
+          autoplay: 0,       // we call play manually
+          controls: 1,
+          rel: 0,
+          modestbranding: 1,
+        },
+        width: '100%',
+        height: '100%',
+      });
+    }
+
     /* ── Modal ───────────────────────────────────────────── */
     function openModal() {
       document.getElementById('modal').classList.add('active');
-      // Inject iframe synchronously inside the click handler so the browser
-      // treats this as a direct user gesture — granting unmuted autoplay.
-      const wrap = document.getElementById('videoWrap');
-      if (!wrap.querySelector('iframe')) {
-        const iframe = document.createElement('iframe');
-        iframe.src = 'https://www.youtube.com/embed/xvFZjo5PgG0?si=JklaamWeaWpfIvTk&autoplay=1&mute=0';
-        iframe.title = 'YouTube video player';
-        iframe.frameBorder = '0';
-        iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
-        iframe.referrerPolicy = 'strict-origin-when-cross-origin';
-        iframe.allowFullscreen = true;
-        wrap.appendChild(iframe);
+      if (!ytPlayer) createPlayer();
+    }
+
+    function revealVideo() {
+      document.getElementById('videoCover').classList.add('hidden');
+      document.getElementById('lolText').style.visibility = 'visible';
+      document.getElementById('modalLabel').style.visibility = 'visible';
+      if (ytPlayer && typeof ytPlayer.playVideo === 'function') {
+        ytPlayer.playVideo();
       }
     }
+
     function closeModal() {
       document.getElementById('modal').classList.remove('active');
-      // Nuke the iframe entirely to stop playback
-      document.getElementById('videoWrap').innerHTML = '';
+      if (ytPlayer && typeof ytPlayer.stopVideo === 'function') {
+        ytPlayer.stopVideo();
+      }
+      // Destroy player and reset cover so it works cleanly if reopened
+      if (ytPlayer && typeof ytPlayer.destroy === 'function') {
+        ytPlayer.destroy();
+      }
+      ytPlayer = null;
+      var el = document.getElementById('ytPlayerEl');
+      if (el) el.remove();
+      document.getElementById('videoCover').classList.remove('hidden');
+      document.getElementById('lolText').style.visibility = 'hidden';
+      document.getElementById('modalLabel').style.visibility = 'hidden';
     }
+
     document.getElementById('modal').addEventListener('click', function(e) {
       if (e.target === this) closeModal();
     });
@@ -335,10 +531,10 @@
       el.innerHTML = `<svg width="${size}" height="${size}" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
         <ellipse cx="10" cy="10" rx="5" ry="9" fill="${c}" opacity="0.75" transform="rotate(${Math.random()*360} 10 10)"/>
       </svg>`;
-      el.style.left   = Math.random() * 100 + 'vw';
-      el.style.top    = '-60px';
-      el.style.animationDuration  = (6 + Math.random() * 10) + 's';
-      el.style.animationDelay     = (Math.random() * 12) + 's';
+      el.style.left  = Math.random() * 100 + 'vw';
+      el.style.top   = '-60px';
+      el.style.animationDuration = (6 + Math.random() * 10) + 's';
+      el.style.animationDelay    = (Math.random() * 12) + 's';
       document.body.appendChild(el);
     }
   </script>
